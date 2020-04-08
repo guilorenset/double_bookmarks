@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 import pyparsing as pp
 from pyparsing import Word, alphas
 
-book_name = "brave_favoritos.html"
+print("Insira abaixo o nome do arquivo html salvo do seu navegador.")
+book_name = input("Nome do arquivo: ")
 myFile = open(book_name, 'r') 
 f = open("favoritos_naoduplicados.html", 'w')
 
@@ -37,6 +38,7 @@ for line in myFile:
         if not j.get_text() in pastas:
             pasta_listada=0
             f.write(line)
+            
             pastas.append(j.get_text())
             a+=1
 #Planos pra próxima versão
@@ -53,14 +55,11 @@ for line in myFile:
 #             linha[5]="None"        #5
 #             linha[6]="None"        #6
         else:
-            pasta_listada=1    
-    
-    elif "</dl><p>" in line.lower():
-        f.write(line)
-#         d=b
-#         e+=1
-#         c=1
-    
+            pasta_listada=1  
+            
+    elif "dl><p>" in line.lower() and pasta_listada==1:
+            pass
+        
     elif "<dt><a" in line.lower():
         t=j.find('a')
         total+=1
@@ -81,9 +80,11 @@ for line in myFile:
 f.write("""<DT><H3>Extras bookmarks</H3>
          <DL><p>""")
 for dup in dups:
-    #print(dup.rstrip())
-    f.write(dup.rstrip())
-f.write("</DL><p>")
+    #print(dup)
+    f.write(dup)
+f.write("""         </DL><p>
+    </DL><p>
+</DL><p>""")
 
 #print(a, h, k, h+k)
 
